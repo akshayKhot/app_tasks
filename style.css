@@ -1,0 +1,11 @@
+.container {
+    width: 60%;
+    margin-top: 20px;
+}
+div {
+    border: 1px solid black;
+}
+
+div.gray {
+    background: gray;
+}
