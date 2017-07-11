@@ -6,6 +6,10 @@ div {
     border: 1px solid black;
 }
 
+div.borderless {
+    border: 0;
+}
+
 div.gray {
     background: gray;
 }
