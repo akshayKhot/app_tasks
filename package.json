@@ -9,6 +9,7 @@
   "author": "Akki",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
     "express": "^4.15.3",
     "lodash": "^4.17.4",

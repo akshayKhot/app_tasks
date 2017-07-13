@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 var _ = require('lodash')
 var pgp = require('pg-promise')()
+var bp = require('body-parser')
 
 var cn = {
     host: 'localhost',
@@ -16,6 +17,8 @@ app.use(function(req, res, next) {
   next();
 })
 
+app.use(bp.json());
+
 app.get('/api/tasks/:date', (req, res) => {
     console.log("Received call");
     db.query("select * from tasks")
@@ -25,6 +28,11 @@ app.get('/api/tasks/:date', (req, res) => {
         res.json(tasks_for_date);
     })
     .catch(err => console.log(err));
+})
+
+app.post('/api/tasks', (req, res) => {
+    console.log(req.body);
+    res.json(req.body);
 })
 
 app.listen(3000, () => {
