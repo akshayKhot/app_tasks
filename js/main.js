@@ -23,9 +23,9 @@ var task = {
 	deadline: "5 am"
 };
 
-// $.post("http://localhost:3000/api/tasks", task, (data) => {
-//     console.log(data);
-// }, "json")
+$.post("http://localhost:3000/api/tasks", task, (data) => {
+    console.log(data);
+}, "json")
 
 $.ajax({
   type: "POST",
