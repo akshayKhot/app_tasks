@@ -1,7 +1,7 @@
 
 var currentDate = moment().format("DDMMYYYY");
 
-$.getJSON(`http://localhost:3000/api/tasks/${currentDate}`, tasks => {
+$.getJSON(`http://localhost:3000/api/tasks/10072017`, tasks => {
 
     var dateString = tasks[0].date;
     var formattedDate = moment(dateString, "DDMMYYYY").format("MMMM DD, YYYY");
@@ -19,11 +19,21 @@ $.getJSON(`http://localhost:3000/api/tasks/${currentDate}`, tasks => {
 });
 
 var task = {
-	task: "Be stable",
+	task: "Do something",
 	deadline: "5 am"
 };
-console.log(JSON.stringify(task));
 
-$.post("http://localhost:3000/api/tasks", JSON.stringify(task), (data) => {
+// $.post("http://localhost:3000/api/tasks", task, (data) => {
+//     console.log(data);
+// }, "json")
+
+$.ajax({
+  type: "POST",
+  url: "http://localhost:3000/api/tasks",
+  data: JSON.stringify(task),
+  contentType: "application/json",
+  success: (data) => {
     console.log(data);
-})
+  },
+  dataType: "json"
+});
