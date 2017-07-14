@@ -19,21 +19,15 @@ $.getJSON(`http://localhost:3000/api/tasks/10072017`, tasks => {
 });
 
 var task = {
-	task: "Do something",
-	deadline: "5 am"
+	task: "Go for a walk",
+	deadline: "5.30 am",
+    date: "14072017"
 };
-
-$.post("http://localhost:3000/api/tasks", task, (data) => {
-    console.log(data);
-}, "json")
 
 $.ajax({
   type: "POST",
   url: "http://localhost:3000/api/tasks",
   data: JSON.stringify(task),
   contentType: "application/json",
-  success: (data) => {
-    console.log(data);
-  },
   dataType: "json"
 });

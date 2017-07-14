@@ -31,8 +31,12 @@ app.get('/api/tasks/:date', (req, res) => {
 })
 
 app.post('/api/tasks', (req, res) => {
-    console.log(req.body);
-    res.json(req.body);
+    var task = req.body.task;
+    var deadline = req.body.deadline;
+    var date = req.body.date;
+    var query = `INSERT INTO tasks (task, deadline, date, completed) VALUES ('${task}', '${deadline}', '${date}', false)`;
+    db.query(query);
+    res.end();
 })
 
 app.listen(3000, () => {
