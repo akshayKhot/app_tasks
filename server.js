@@ -19,6 +19,10 @@ app.use(function(req, res, next) {
 
 app.use(bp.json());
 
+app.get('/', (req, res) => {
+    res.send("index.html");
+})
+
 app.get('/api/tasks/:date', (req, res) => {
     db.query("select * from tasks")
     .then(db_tasks => {

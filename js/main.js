@@ -1,7 +1,7 @@
 
 var currentDate = moment().format("DDMMYYYY");
 
-$.getJSON(`http://localhost:3000/api/tasks/10072017`, tasks => {
+$.getJSON(`http://localhost:3000/api/tasks/${currentDate}`, tasks => {
 
     var dateString = tasks[0].date;
     var formattedDate = moment(dateString, "DDMMYYYY").format("MMMM DD, YYYY");
@@ -44,5 +44,11 @@ $("#submitBtn").click(function() {
     });
 
     $("form").trigger("reset");
+    $("#showFormBtn").css("visibility", "visible");
+    $("form").css("visibility", "hidden");
 });
 
+$("#showFormBtn").click(function() {
+    $("form").css("visibility", "visible");
+    $("#showFormBtn").css("visibility", "hidden");
+})

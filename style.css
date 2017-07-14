@@ -7,3 +7,11 @@
 div.borderless {
     border: 0;
 }
+
+form {
+    visibility: hidden;
+}
+
+.addTaskDiv {
+    margin-top: 60px;
+}
