@@ -24,10 +24,25 @@ var task = {
     date: "14072017"
 };
 
-$.ajax({
-  type: "POST",
-  url: "http://localhost:3000/api/tasks",
-  data: JSON.stringify(task),
-  contentType: "application/json",
-  dataType: "json"
+$("#submitBtn").click(function() {
+    var taskValue = $("#taskInput").val();
+    var deadlineValue = $("#deadlineInput").val();
+    var dateValue = $("#dateInput").val();
+    
+    var taskObject = {
+        task: taskValue,
+        deadline: deadlineValue,
+        date: moment(dateValue).format("DDMMYYYY")
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:3000/api/tasks",
+        data: JSON.stringify(taskObject),
+        contentType: "application/json",
+        dataType: "json"
+    });
+
+    $("form").trigger("reset");
 });
+

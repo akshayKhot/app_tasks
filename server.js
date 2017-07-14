@@ -20,7 +20,6 @@ app.use(function(req, res, next) {
 app.use(bp.json());
 
 app.get('/api/tasks/:date', (req, res) => {
-    console.log("Received call");
     db.query("select * from tasks")
     .then(db_tasks => {
         var date = req.params.date;
