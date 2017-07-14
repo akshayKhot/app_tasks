@@ -44,11 +44,28 @@ $("#submitBtn").click(function() {
     });
 
     $("form").trigger("reset");
-    $("#showFormBtn").css("visibility", "visible");
-    $("form").css("visibility", "hidden");
+    showFormBtn();
+    hideForm();
 });
 
 $("#showFormBtn").click(function() {
-    $("form").css("visibility", "visible");
-    $("#showFormBtn").css("visibility", "hidden");
+    showForm();
+    hideFormBtn();
 })
+$("#cancelBtn").click(function() {
+    hideForm();
+    showFormBtn();
+})
+
+function showForm() {
+    $("form").css("visibility", "visible");
+}
+function hideForm() {
+    $("form").css("visibility", "hidden");
+}
+function showFormBtn() {
+    $("#showFormBtn").css("visibility", "visible");
+}
+function hideFormBtn() {
+    $("#showFormBtn").css("visibility", "hidden");
+}
