@@ -40,6 +40,7 @@ export class App {
             });
         this.hideForm();
     }
+    
     updateTask(task) {
         client
             .fetch(`http://localhost:3000/api/tasks/${task.task_id}`, {
