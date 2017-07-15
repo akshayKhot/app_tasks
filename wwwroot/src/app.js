@@ -35,11 +35,11 @@ export class App {
             .fetch(`http://localhost:3000/api/tasks/`, {
                 method: 'post',
                 body: json(task)
+            }).then(() => {
+                this.getAndDisplayTasks();
             })
             .catch(error => {
                 alert('Error saving comment!');
-            }).then(() => {
-                this.getAndDisplayTasks();
             });
         this.hideForm();
     }
@@ -79,11 +79,11 @@ export class App {
                 method: 'delete',
                 body: json(task)
             })
-            .catch(error => {
-                alert('Error saving comment!');
-            })
             .then(() => {
                 this.getAndDisplayTasks();
+            })
+            .catch(error => {
+                alert('Error saving comment!');
             });
         
     }
@@ -108,11 +108,11 @@ export class App {
                 method: 'put',
                 body: json(task)
             })
-            .catch(error => {
-                alert('Error saving comment!');
-            })
             .then(() => {
                 this.getAndDisplayTasks();
+            })
+            .catch(error => {
+                alert('Error saving comment!');
             });
         this.hideForm();
     }
