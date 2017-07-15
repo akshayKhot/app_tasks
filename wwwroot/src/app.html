@@ -18,7 +18,7 @@
                     <td class="text-center">${task.task}</td>
                     <td class="text-center">${task.deadline}</td>
                     <td class="text-center">
-                        <input type="checkbox" checked.bind="task.completed">
+                        <input type="checkbox" checked.bind="task.completed" change.delegate="updateTask(task)">
                     </td>
                 </tr>
             </tbody>
@@ -26,7 +26,7 @@
 
         <div class="addTaskDiv">
             <div class="text-center"> 
-                <button id="showFormBtn" class="btn btn-success" click.delegate="showForm()">Add Task</button>
+                <button id="showFormBtn" class="btn btn-success" click.delegate="showForm()" css="visibility: ${formVisible ? 'hidden' : 'visible'}">Add Task</button>
             </div>
             <br>
             <form class="form-horizontal col-sm-offset-4" css="visibility: ${formVisible ? 'visible' : 'hidden'};">
@@ -48,7 +48,7 @@
                         <input type="date" class="form-control" id="dateInput">
                     </div>
                 </div>
-                <div class="col-sm-offset-1 col-sm-6">
+                <div class="col-sm-offset-3">
                     <button type="button" id="submitBtn" class="btn btn-success" click.delegate="saveTask()">Submit Task</button>
                     <button type="button" id="cancelBtn" class="btn btn-danger" click.delegate="hideForm()">Cancel</button>
                 </div>
