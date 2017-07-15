@@ -18,12 +18,6 @@ $.getJSON(`http://localhost:3000/api/tasks/${currentDate}`, tasks => {
     })
 });
 
-var task = {
-	task: "Go for a walk",
-	deadline: "5.30 am",
-    date: "14072017"
-};
-
 $("#submitBtn").click(function() {
     var taskValue = $("#taskInput").val();
     var deadlineValue = $("#deadlineInput").val();

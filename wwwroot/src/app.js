@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import $ from 'jquery';
 import moment from 'moment';
 import {HttpClient, json} from 'aurelia-fetch-client';
 
@@ -8,16 +9,11 @@ export class App {
     
     constructor() {
         this.currentDate = moment().format("DDMMYYYY");
-        this.formattedDate = moment().format("MMMM DD, YYYY");
         this.formVisible = false;
     }
     
     activate() {
-        client.fetch(`http://localhost:3000/api/tasks/${this.currentDate}`)
-            .then(response => response.json())
-            .then(tasks => {
-                this.tasks = tasks;
-            });
+        this.getAndDisplayTasks();
     }
 
     showForm() {
@@ -27,7 +23,21 @@ export class App {
         this.formVisible = false;
     }
     saveTask() {
-        //make db call
+
+        var task = {
+            task: $("#taskInput").val(),
+            deadline: $("#deadlineInput").val(),
+            date: moment($("#dateInput").val()).format("DDMMYYYY")
+        }
+
+        client
+            .fetch(`http://localhost:3000/api/tasks/`, {
+                method: 'post',
+                body: json(task)
+            })
+            .catch(error => {
+                alert('Error saving comment!');
+            });
         this.hideForm();
     }
     updateTask(task) {
@@ -43,21 +53,20 @@ export class App {
 
     prevDate() {
         this.currentDate = moment(this.currentDate, "DDMMYYYY").subtract(1, 'day').format("DDMMYYYY");
-        console.log(this.currentDate);
-        // client.fetch(`http://localhost:3000/api/tasks/${this.currentDate}`)
-        //     .then(response => response.json())
-        //     .then(tasks => {
-        //         this.tasks = tasks;
-        //     });
+        this.getAndDisplayTasks();
     }
     nextDate() {
         this.currentDate = moment(this.currentDate, "DDMMYYYY").add(1, 'day').format("DDMMYYYY");
-        console.log(this.currentDate);
-        // client.fetch(`http://localhost:3000/api/tasks/${this.currentDate}`)
-        //     .then(response => response.json())
-        //     .then(tasks => {
-        //         this.tasks = tasks;
-        //     });
+        this.getAndDisplayTasks();
+    }
+    
+    getAndDisplayTasks() {
+        this.formattedDate = moment(this.currentDate, "DDMMYYYY").format("MMMM DD, YYYY");
+        client.fetch(`http://localhost:3000/api/tasks/${this.currentDate}`)
+            .then(response => response.json())
+            .then(tasks => {
+                this.tasks = tasks;
+            });
     }
 
 }
