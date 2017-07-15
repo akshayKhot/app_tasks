@@ -37,6 +37,8 @@ export class App {
             })
             .catch(error => {
                 alert('Error saving comment!');
+            }).then(() => {
+                this.getAndDisplayTasks();
             });
         this.hideForm();
     }
@@ -68,6 +70,21 @@ export class App {
             .then(tasks => {
                 this.tasks = tasks;
             });
+    }
+    
+    deleteTask(task) {
+        client
+            .fetch(`http://localhost:3000/api/tasks/${task.task_id}`, {
+                method: 'delete',
+                body: json(task)
+            })
+            .catch(error => {
+                alert('Error saving comment!');
+            })
+            .then(() => {
+                this.getAndDisplayTasks();
+            });
+        
     }
 
 }

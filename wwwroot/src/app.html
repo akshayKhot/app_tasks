@@ -15,6 +15,7 @@
                         <th class="text-center">Task</th>
                         <th class="text-center">Deadline</th>
                         <th class="text-center">Completed</th>
+                        <th class="col-sm-1"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,6 +24,9 @@
                         <td class="text-center">${task.deadline}</td>
                         <td class="text-center">
                             <input type="checkbox" checked.bind="task.completed" change.delegate="updateTask(task)">
+                        </td>
+                        <td class="col-sm-1">
+                            <span click.delegate="deleteTask(task)"><i class="fa fa-times" aria-hidden="true"></i></span>
                         </td>
                     </tr>
                 </tbody>

@@ -13,7 +13,7 @@ var db = pgp(cn)
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "PUT");
+  res.header("Access-Control-Allow-Methods", ["PUT", "DELETE"]);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 })
@@ -50,6 +50,13 @@ app.put('/api/tasks/:taskid', (req, res) => {
     var completed = req.body.completed;
     var query = `UPDATE tasks 
                 SET task='${task}', deadline='${deadline}', date='${date}', completed='${completed}'
+                WHERE task_id=${req.params.taskid}`;
+    db.query(query);
+    res.end();
+})
+
+app.delete('/api/tasks/:taskid', (req, res) => {
+    var query = `DELETE from tasks 
                 WHERE task_id=${req.params.taskid}`;
     db.query(query);
     res.end();
