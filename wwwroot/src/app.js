@@ -21,6 +21,7 @@ export class App {
     }
     hideForm() {
         this.formVisible = false;
+        this.isEditing = false;
     }
     saveTask() {
 
@@ -85,6 +86,35 @@ export class App {
                 this.getAndDisplayTasks();
             });
         
+    }
+    
+    editTask(task) {
+        this.isEditing = true;
+        this.editing_id = task.task_id;
+        this.showForm();
+    }
+
+    modifyTask() {
+        var task = {
+            task_id: this.editing_id,
+            task: $("#taskInput").val(),
+            deadline: $("#deadlineInput").val(),
+            date: moment($("#dateInput").val()).format("DDMMYYYY"),
+            completed: false
+        }
+
+        client
+            .fetch(`http://localhost:3000/api/tasks/${task.task_id}`, {
+                method: 'put',
+                body: json(task)
+            })
+            .catch(error => {
+                alert('Error saving comment!');
+            })
+            .then(() => {
+                this.getAndDisplayTasks();
+            });
+        this.hideForm();
     }
 
 }

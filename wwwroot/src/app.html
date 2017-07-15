@@ -19,14 +19,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr repeat.for="task of tasks">
+                    <tr repeat.for="task of tasks" class="taskRow">
                         <td class="text-center">${task.task}</td>
                         <td class="text-center">${task.deadline}</td>
                         <td class="text-center">
                             <input type="checkbox" checked.bind="task.completed" change.delegate="updateTask(task)">
                         </td>
                         <td class="col-sm-1">
-                            <span click.delegate="deleteTask(task)"><i class="fa fa-times" aria-hidden="true"></i></span>
+                            <span class="icons" click.delegate="deleteTask(task)"><i class="fa fa-times" aria-hidden="true"></i></span>
+                            <span class="icons" click.delegate="editTask(task)"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                         </td>
                     </tr>
                 </tbody>
@@ -58,7 +59,8 @@
                     </div>
                 </div>
                 <div class="col-sm-offset-3">
-                    <button type="button" id="submitBtn" class="btn btn-success" click.delegate="saveTask()">Submit Task</button>
+                    <button type="button" id="submitBtn" class="btn btn-success" click.delegate="saveTask()" if.bind="!isEditing">Submit Task</button>
+                    <button type="button" id="updateBtn" class="btn btn-success" click.delegate="modifyTask()" if.bind="isEditing">Update Task</button>
                     <button type="button" id="cancelBtn" class="btn btn-danger" click.delegate="hideForm()">Cancel</button>
                 </div>
                 

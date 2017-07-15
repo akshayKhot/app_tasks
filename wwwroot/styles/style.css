@@ -14,3 +14,16 @@
 button{
     display: inline;
 }
+
+.icons {
+    padding: 3px;
+}
+
+.fa:hover{
+  font-size: 20px;
+  transition: 0.5s;
+}
+
+.taskRow {
+    height: 45px;
+}
