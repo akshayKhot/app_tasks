@@ -1,0 +1,62 @@
+<template>
+    
+    <div class="container">
+        <div class="row text-center">
+            <h1 id="date">${formattedDate}</h1>
+       </div><br>
+        
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">Task</th>
+                    <th class="text-center">Deadline</th>
+                    <th class="text-center">Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr repeat.for="task of tasks">
+                    <td class="text-center">${task.task}</td>
+                    <td class="text-center">${task.deadline}</td>
+                    <td class="text-center">
+                        <input type="checkbox" checked.bind="task.completed">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="addTaskDiv">
+            <div class="text-center"> 
+                <button id="showFormBtn" class="btn btn-success" click.delegate="showForm()">Add Task</button>
+            </div>
+            <br>
+            <form class="form-horizontal col-sm-offset-4" css="visibility: ${formVisible ? 'visible' : 'hidden'};">
+                <div class="form-group">
+                    <label for="task" class="control-label col-sm-2">Task:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="taskInput">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="deadline" class="control-label col-sm-2">Deadline:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="deadlineInput">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="date" class="control-label col-sm-2">Date:</label>
+                    <div class="col-sm-5">
+                        <input type="date" class="form-control" id="dateInput">
+                    </div>
+                </div>
+                <div class="col-sm-offset-1 col-sm-6">
+                    <button type="button" id="submitBtn" class="btn btn-success" click.delegate="saveTask()">Submit Task</button>
+                    <button type="button" id="cancelBtn" class="btn btn-danger" click.delegate="hideForm()">Cancel</button>
+                </div>
+                
+            </form>
+        </div>
+
+    </div>
+
+
+</template>
