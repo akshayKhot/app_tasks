@@ -7,7 +7,6 @@ let client = new HttpClient();
 export class App {
     
     constructor() {
-        console.log(moment());
         this.currentDate = moment().format("DDMMYYYY");
         this.formattedDate = moment().format("MMMM DD, YYYY");
         this.formVisible = false;
@@ -41,6 +40,26 @@ export class App {
                 alert('Error saving comment!');
             });
     }
+
+    prevDate() {
+        this.currentDate = moment(this.currentDate, "DDMMYYYY").subtract(1, 'day').format("DDMMYYYY");
+        console.log(this.currentDate);
+        // client.fetch(`http://localhost:3000/api/tasks/${this.currentDate}`)
+        //     .then(response => response.json())
+        //     .then(tasks => {
+        //         this.tasks = tasks;
+        //     });
+    }
+    nextDate() {
+        this.currentDate = moment(this.currentDate, "DDMMYYYY").add(1, 'day').format("DDMMYYYY");
+        console.log(this.currentDate);
+        // client.fetch(`http://localhost:3000/api/tasks/${this.currentDate}`)
+        //     .then(response => response.json())
+        //     .then(tasks => {
+        //         this.tasks = tasks;
+        //     });
+    }
+
 }
 
 

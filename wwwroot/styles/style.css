@@ -3,6 +3,10 @@
     margin-top: 20px;
 }
 
+#dateTitle {
+    display: inline;
+}
+
 .addTaskDiv {
     margin-top: 60px;
 }
