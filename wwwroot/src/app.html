@@ -3,12 +3,12 @@
     <div class="container">
         <div class="row text-center">
             <div class="col-sm-2" click.delegate="prevDate()"><i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i></div>
-            <div class="col-sm-8"><h1 id="dateTitle">${formattedDate}</h1></div>
+            <div class="col-sm-8"><h1 id="dateTitle">${formattedDate}</h1><span class="refreshIcon" click.delegate="getAndDisplayTasks()"><i class="fa fa-refresh fa-2x" aria-hidden="true"></i></span></div>
             <div class="col-sm-2" click.delegate="nextDate()"><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></div>
         </div>
         <br><br>
         
-        <div class="row">   
+        <div class="row taskList">   
             <table class="table table-hover">
                 <thead>
                     <tr>

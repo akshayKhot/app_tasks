@@ -18,12 +18,20 @@ button{
 .icons {
     padding: 3px;
 }
+.refreshIcon {
+    margin-left: 20px;
+}
 
-.fa:hover{
+td .fa:hover{
   font-size: 20px;
   transition: 0.5s;
 }
 
 .taskRow {
     height: 45px;
+}
+
+.taskList {
+    height: 250px;
+    overflow: auto;
 }
