@@ -13,7 +13,7 @@ export class App {
     }
 
     activate() {
-        this.getFriends();
+        this.getMovies();
     }
 
     addFriend() {
@@ -29,11 +29,11 @@ export class App {
             });
     }
 
-    getFriends() {
-        client.fetch(`http://localhost:3000/friends`)
+    getMovies() {
+        client.fetch(`http://www.omdbapi.com/?s=guardians+of+the+galaxy&apikey=thewdb`)
             .then(response => response.json())
-            .then(friends => {
-                this.friends = friends;
+            .then(data => {
+                this.movies = data.Search;
             });
     }
     

@@ -3,7 +3,10 @@
     <div class="container">
         
         <ul>
-            <li repeat.for="friend of friends">${friend}</li>
+            <li repeat.for="movie of movies">
+                ${movie.Title}
+                <img src="${movie.Poster}"/>
+            </li>
         </ul>
 
         <form>
