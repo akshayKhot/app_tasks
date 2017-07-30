@@ -20,9 +20,26 @@ app.use(function(req, res, next) {
 
 app.use(bp.json());
 
-app.get('/', (req, res) => {
-    res.send("index.html");
+var friends = ["Akshay", "Amey", "Mangesh", "Bandya"];
+
+app.get("/friends", function(req, res) {
+    res.json(friends);
 })
+
+app.post("/addFriend", function(req, res) {
+    console.log(req.body);
+    friends.push(req.body.friend);
+    res.end();
+});
+
+
+
+
+
+
+
+
+
 
 app.get('/api/tasks/:date', (req, res) => {
     db.query("select * from tasks")

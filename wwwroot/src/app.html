@@ -2,8 +2,14 @@
     
     <div class="container">
         
-        ${greeting}
+        <ul>
+            <li repeat.for="friend of friends">${friend}</li>
+        </ul>
 
+        <form>
+            <input type="text" name="friend" placeholder="friend name" value.bind="friendName">
+            <button type="submit" click.trigger="addFriend()">Add</button>
+        </form>
     </div>
 
 
