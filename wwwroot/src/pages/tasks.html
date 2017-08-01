@@ -1,0 +1,18 @@
+<template>
+    <table class='table'>
+            <thead>
+                <tr>
+                <th>Task</th>
+                <th>Deadline</th>
+                <th>Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr repeat.for="task of tasks">
+                <td>${task.task}</td>
+                <td>${task.deadline}</td>
+                <td>${task.completed}</td>
+                </tr>
+            </tbody>
+        </table>
+</template>

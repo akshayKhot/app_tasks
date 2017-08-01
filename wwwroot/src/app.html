@@ -3,7 +3,13 @@
     <div class="container">
 
         <div class="header clearfix">
-            
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
+                        <a href.bind="row.href">${row.title}</a>
+                    </li>
+                </ul>
+            </nav>
             <h3 class="text-muted">Basecamp</h3>
         </div>
 
@@ -12,26 +18,8 @@
             <p class="lead">View our camps all over the world!</p>
         </div>
         
-        <table class='table'>
-            <thead>
-                <tr>
-                <th>Task</th>
-                <th>Deadline</th>
-                <th>Completed</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr repeat.for="task of tasks">
-                <td>${task.task}</td>
-                <td>${task.deadline}</td>
-                <td>${task.completed}</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <footer class="footer">
-            <!-- <p>&copy; 2016 Akshay, Inc.</p> -->
-        </footer>
+        <router-view></router-view>
+        
     </div>
 
 
