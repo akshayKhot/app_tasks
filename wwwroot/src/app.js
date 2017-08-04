@@ -4,7 +4,7 @@ export class App {
     this.router = router;
     config.title = 'Aurelia';
     config.map([
-      { route: ['', 'home'],       name: 'home',       moduleId: 'pages/home', nav: true, title: 'Home'},
+      { route: ['', 'home', 'welcome'],       name: 'home',       moduleId: 'pages/home', nav: true, title: 'Home'},
       { route: 'tasks',            name: 'tasks',      moduleId: 'pages/tasks', nav: true, title: 'Tasks'},
       { route: 'addTask',          name: 'addtask',    moduleId: 'pages/addTask', nav: true, title: 'Add' }
     ]);

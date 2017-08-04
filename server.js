@@ -30,6 +30,21 @@ app.get("/api/tasks", function(req, res) {
         });
 })
 
+app.post("/api/post", function(req, res) {
+    console.log("received post");
+    res.end();
+})
+
+app.post('/api/tasks', (req, res) => {
+    var task = req.body.task;
+    var deadline = req.body.deadline;
+    var date = "03082017";
+    var query = `INSERT INTO tasks (task, deadline, date, completed) VALUES ('${task}', '${deadline}', '${date}', false)`;
+    
+    db.query(query);
+    res.end();
+})
+
 app.listen(3000, () => {
     console.log('Listening on port 3000')
 })
