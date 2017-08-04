@@ -30,8 +30,15 @@ app.get("/api/tasks", function(req, res) {
         });
 })
 
-app.post("/api/post", function(req, res) {
-    console.log("received post");
+app.post("/api/user/new", function(req, res) {
+    var name = req.body.name;
+    var username = req.body.username;
+    var email = req.body.email;
+    var password = req.body.password;
+    
+    var query = `INSERT INTO users (name, username, email, password) VALUES ('${name}', '${username}', '${email}', '${password}')`;
+
+    db.query(query);
     res.end();
 })
 

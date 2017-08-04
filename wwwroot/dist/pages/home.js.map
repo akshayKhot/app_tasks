@@ -1,1 +1,1 @@
-{"version":3,"sources":["pages/home.js"],"names":["Home"],"mappings":";;;;;;;;;;;;;;4BAAaA,I","file":"home.js","sourceRoot":"/src"}
+{"version":3,"sources":["pages/home.js"],"names":["Home","username","numOfTasks"],"mappings":";;;;;;;;;;;;;;4BAAaA,I,GACT,gBAAc;AAAA;;AACV,qBAAKC,QAAL,GAAgB,QAAhB;AACA,qBAAKC,UAAL,GAAkB,CAAlB;AACH,a","file":"home.js","sourceRoot":"/src"}
