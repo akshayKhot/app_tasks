@@ -18,6 +18,10 @@ System.register(["aurelia-fetch-client"], function (_export, _context) {
             client = new HttpClient();
 
             _export("Signup", Signup = function () {
+                Signup.prototype.attached = function attached() {
+                    this.errorsOnPage = false;
+                };
+
                 function Signup() {
                     _classCallCheck(this, Signup);
 
@@ -25,9 +29,15 @@ System.register(["aurelia-fetch-client"], function (_export, _context) {
                     this.username = "";
                     this.email = "";
                     this.password = "";
+
+                    this.isSignUp = true;
+                    this.success = false;
+                    this.errorsOnPage = false;
                 }
 
                 Signup.prototype.signup = function signup() {
+                    var _this = this;
+
                     var user = {
                         name: this.name,
                         username: this.username,
@@ -38,6 +48,16 @@ System.register(["aurelia-fetch-client"], function (_export, _context) {
                     client.fetch("http://localhost:3000/api/user/new", {
                         method: 'post',
                         body: json(user)
+                    }).then(function (response) {
+                        return response.json();
+                    }).then(function (result) {
+                        console.log(result);
+                        if (result.status == "Success") {
+                            _this.isSignUp = false;
+                            _this.errorsOnPage = false;
+                        } else if (result.status == "Error") {
+                            _this.errorsOnPage = true;
+                        }
                     });
                 };
 

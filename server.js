@@ -1,9 +1,12 @@
-const express = require('express')
-const app = express()
-var _ = require('lodash')
-var pgp = require('pg-promise')()
-var bp = require('body-parser')
-var request = require('request')
+var express             = require('express'),
+      _                 = require('lodash'),
+      pgp               = require('pg-promise')(),
+      bp                = require('body-parser'),
+      request           = require('request'),
+      expressValidator  = require('express-validator'),
+      Strategy          = require('passport-local').Strategy;
+
+var app = express();
 
 var cn = {
     host: 'localhost',
@@ -20,8 +23,7 @@ app.use(function(req, res, next) {
 })
 
 app.use(bp.json());
-
-var friends = ["Akshay", "Amey", "Mangesh", "Bandya"];
+app.use(expressValidator());
 
 app.get("/api/tasks", function(req, res) {
     db.query("select * from tasks")
@@ -31,15 +33,36 @@ app.get("/api/tasks", function(req, res) {
 })
 
 app.post("/api/user/new", function(req, res) {
-    var name = req.body.name;
-    var username = req.body.username;
-    var email = req.body.email;
-    var password = req.body.password;
-    
-    var query = `INSERT INTO users (name, username, email, password) VALUES ('${name}', '${username}', '${email}', '${password}')`;
 
-    db.query(query);
-    res.end();
+    console.log("received post");
+    req.checkBody('name', 'Name can not be empty').notEmpty();
+    req.checkBody('username', 'Username can not be empty').notEmpty();
+    req.checkBody('email', 'Email can not be empty').notEmpty();
+    req.assert('email', 'valid email required').isEmail();
+    req.checkBody('password', 'Password can not be empty').notEmpty();
+    
+    req.getValidationResult().then(function(result) {
+        if (!result.isEmpty()) {
+            res.json({
+                'status': "Error"
+            });
+            return;
+        }
+        var name = req.body.name;
+        var username = req.body.username;
+        var email = req.body.email;
+        var password = req.body.password;
+        
+        var query = `INSERT INTO users (name, username, email, password) VALUES ('${name}', '${username}', '${email}', '${password}')`;
+
+        db.query(query);
+            res.json({
+                'status': "Success",
+                'name': req.body.name,
+                'username': req.body.username
+            });
+  });
+
 })
 
 app.post('/api/tasks', (req, res) => {

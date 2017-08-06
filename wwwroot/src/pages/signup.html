@@ -1,6 +1,10 @@
 <template>
     <div class="container">
-        <form class="form-horizontal">
+
+        <div if.bind="errorsOnPage">
+            <h3>There were some errors!, Try again!</h3>
+        </div>
+        <form class="form-horizontal" if.bind="isSignUp">
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-10">
@@ -31,5 +35,10 @@
                 </div>
             </div>
         </form>
+
+        <div if.bind="!isSignUp">
+            <h1>Sign up Successful!</h1>
+        </div>
+
     </div>
 </template>
