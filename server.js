@@ -4,6 +4,8 @@ var express             = require('express'),
       bp                = require('body-parser'),
       request           = require('request'),
       expressValidator  = require('express-validator'),
+      util              = require('util'),
+      bcrypt            = require('bcrypt'),
       Strategy          = require('passport-local').Strategy;
 
 var app = express();
@@ -34,12 +36,14 @@ app.get("/api/tasks", function(req, res) {
 
 app.post("/api/user/new", function(req, res) {
 
-    console.log("received post");
+    // validations!
     req.checkBody('name', 'Name can not be empty').notEmpty();
     req.checkBody('username', 'Username can not be empty').notEmpty();
     req.checkBody('email', 'Email can not be empty').notEmpty();
-    req.assert('email', 'valid email required').isEmail();
     req.checkBody('password', 'Password can not be empty').notEmpty();
+
+    req.checkBody('username', "Username must be 4-15 characters long").len(4, 15);
+    req.assert('email', 'valid email required').isEmail();
     
     req.getValidationResult().then(function(result) {
         if (!result.isEmpty()) {
@@ -48,19 +52,29 @@ app.post("/api/user/new", function(req, res) {
             });
             return;
         }
+        const saltRounds = 10;
+        const myPlaintextPassword = 's0/\/\P4$$w0rD';
+        const someOtherPlaintextPassword = 'not_bacon';
+
         var name = req.body.name;
         var username = req.body.username;
         var email = req.body.email;
         var password = req.body.password;
-        
-        var query = `INSERT INTO users (name, username, email, password) VALUES ('${name}', '${username}', '${email}', '${password}')`;
 
-        db.query(query);
-            res.json({
-                'status': "Success",
-                'name': req.body.name,
-                'username': req.body.username
+        bcrypt.genSalt(saltRounds, function(err, salt) {
+        bcrypt.hash(password, salt, function(err, hashedPassword) {
+            var query = `INSERT INTO users (name, username, email, password) VALUES ('${name}', '${username}', '${email}', '${hashedPassword}')`;
+
+            db.query(query);
+                res.json({
+                    'status': "Success",
+                    'name': req.body.name,
+                    'username': req.body.username
+                }); 
             });
+    });
+        
+        
   });
 
 })
