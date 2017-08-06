@@ -1,37 +1,8 @@
 .container {
     width: 60%;
-    margin-top: 20px;
 }
 
-#dateTitle {
-    display: inline;
+body {
+    padding: 20px 0;
 }
 
-.addTaskDiv {
-    margin-top: 60px;
-}
-
-button{
-    display: inline;
-}
-
-.icons {
-    padding: 3px;
-}
-.refreshIcon {
-    margin-left: 20px;
-}
-
-td .fa:hover{
-  font-size: 20px;
-  transition: 0.5s;
-}
-
-.taskRow {
-    height: 45px;
-}
-
-.taskList {
-    height: 250px;
-    overflow: auto;
-}

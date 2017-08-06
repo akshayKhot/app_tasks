@@ -1,15 +1,13 @@
 
 #Task Manager 
 
-A Full-stack web application using postgres to manage your 3 most important tasks in the day
+A Full-stack web application which manages your daily tasks. A very basic CRUD application using Node JS and Postgresql, with Aurelia on front-end. 
 
-1. Back-End: Node.js, Express
+API:
 
-2. Front-End: Aurelia, JQuery, Lodash and Moment
+url             verb    description
+=======================================
 
-3. Database: Postgresql
+/api/tasks      GET     Get all the tasks for all days
 
-![](screenshots/1.png "List daily tasks")
-![](screenshots/2.png "Add new tasks")
-
-
+/api/tasks      POST    Add a new task in the database

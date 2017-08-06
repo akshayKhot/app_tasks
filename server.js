@@ -1,8 +1,14 @@
-const express = require('express')
-const app = express()
-var _ = require('lodash')
-var pgp = require('pg-promise')()
-var bp = require('body-parser')
+var express             = require('express'),
+      _                 = require('lodash'),
+      pgp               = require('pg-promise')(),
+      bp                = require('body-parser'),
+      request           = require('request'),
+      expressValidator  = require('express-validator'),
+      util              = require('util'),
+      bcrypt            = require('bcrypt'),
+      Strategy          = require('passport-local').Strategy;
+
+var app = express();
 
 var cn = {
     host: 'localhost',
@@ -19,45 +25,66 @@ app.use(function(req, res, next) {
 })
 
 app.use(bp.json());
+app.use(expressValidator());
 
-app.get('/', (req, res) => {
-    res.send("index.html");
+app.get("/api/tasks", function(req, res) {
+    db.query("select * from tasks")
+        .then(db_tasks => {
+            res.json(db_tasks);
+        });
 })
 
-app.get('/api/tasks/:date', (req, res) => {
-    db.query("select * from tasks")
-    .then(db_tasks => {
-        var date = req.params.date;
-        var tasks_for_date = _.filter(db_tasks, task => task.date == date);
-        res.json(tasks_for_date);
-    })
-    .catch(err => console.log(err));
+app.post("/api/user/new", function(req, res) {
+
+    // validations!
+    req.checkBody('name', 'Name can not be empty').notEmpty();
+    req.checkBody('username', 'Username can not be empty').notEmpty();
+    req.checkBody('email', 'Email can not be empty').notEmpty();
+    req.checkBody('password', 'Password can not be empty').notEmpty();
+
+    req.checkBody('username', "Username must be 4-15 characters long").len(4, 15);
+    req.assert('email', 'valid email required').isEmail();
+    
+    req.getValidationResult().then(function(result) {
+        if (!result.isEmpty()) {
+            res.json({
+                'status': "Error"
+            });
+            return;
+        }
+        const saltRounds = 10;
+        const myPlaintextPassword = 's0/\/\P4$$w0rD';
+        const someOtherPlaintextPassword = 'not_bacon';
+
+        var name = req.body.name;
+        var username = req.body.username;
+        var email = req.body.email;
+        var password = req.body.password;
+
+        bcrypt.genSalt(saltRounds, function(err, salt) {
+        bcrypt.hash(password, salt, function(err, hashedPassword) {
+            var query = `INSERT INTO users (name, username, email, password) VALUES ('${name}', '${username}', '${email}', '${hashedPassword}')`;
+
+            db.query(query);
+                res.json({
+                    'status': "Success",
+                    'name': req.body.name,
+                    'username': req.body.username
+                }); 
+            });
+    });
+        
+        
+  });
+
 })
 
 app.post('/api/tasks', (req, res) => {
     var task = req.body.task;
     var deadline = req.body.deadline;
-    var date = req.body.date;
+    var date = "03082017";
     var query = `INSERT INTO tasks (task, deadline, date, completed) VALUES ('${task}', '${deadline}', '${date}', false)`;
-    db.query(query);
-    res.end();
-})
-
-app.put('/api/tasks/:taskid', (req, res) => {
-    var task = req.body.task;
-    var deadline = req.body.deadline;
-    var date = req.body.date;
-    var completed = req.body.completed;
-    var query = `UPDATE tasks 
-                SET task='${task}', deadline='${deadline}', date='${date}', completed='${completed}'
-                WHERE task_id=${req.params.taskid}`;
-    db.query(query);
-    res.end();
-})
-
-app.delete('/api/tasks/:taskid', (req, res) => {
-    var query = `DELETE from tasks 
-                WHERE task_id=${req.params.taskid}`;
+    
     db.query(query);
     res.end();
 })
