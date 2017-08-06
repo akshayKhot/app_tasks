@@ -17,8 +17,6 @@ export class Tasks {
         .then(tasks => {
             this.tasks = tasks;
         });
-
-        $.post()
     }
 
 }

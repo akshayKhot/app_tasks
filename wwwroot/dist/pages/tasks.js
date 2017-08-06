@@ -38,8 +38,6 @@ System.register(['lodash', 'jquery', 'moment', 'aurelia-fetch-client'], function
                     }).then(function (tasks) {
                         _this.tasks = tasks;
                     });
-
-                    $.post();
                 };
 
                 return Tasks;
