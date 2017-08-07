@@ -7,6 +7,7 @@ var express           = require('express'),
   
 const router  = express.Router();
 
+
 router.get("/tasks", function(req, res) {
     db.query("select * from tasks")
         .then(db_tasks => {
