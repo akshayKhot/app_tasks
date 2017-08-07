@@ -1,8 +1,11 @@
-var express = require('express'),
-    db      = require('./db.js').db;
-    
+var express           = require('express'),
+    db                = require('./db').db,
+    _                 = require('lodash'),
+    util              = require('util'),
+    bcrypt            = require('bcrypt'),
+    Strategy          = require('passport-local').Strategy;
+  
 const router  = express.Router();
-
 
 router.get("/tasks", function(req, res) {
     db.query("select * from tasks")
