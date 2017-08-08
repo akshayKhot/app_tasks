@@ -3,7 +3,8 @@ var express           = require('express'),
     _                 = require('lodash'),
     util              = require('util'),
     bcrypt            = require('bcrypt'),
-    Strategy          = require('passport-local').Strategy;
+    Strategy          = require('passport-local').Strategy,
+    passport          = require('passport');
   
 const router  = express.Router();
 
@@ -32,33 +33,45 @@ router.post("/user/new", function(req, res) {
                 'status': "Error"
             });
             return;
-        }
-        const saltRounds = 10;
-        const myPlaintextPassword = 's0/\/\P4$$w0rD';
-        const someOtherPlaintextPassword = 'not_bacon';
+        } else {
+            const saltRounds = 10;
+            const myPlaintextPassword = 's0/\/\P4$$w0rD';
+            const someOtherPlaintextPassword = 'not_bacon';
 
-        var name = req.body.name;
-        var username = req.body.username;
-        var email = req.body.email;
-        var password = req.body.password;
+            var name = req.body.name;
+            var username = req.body.username;
+            var email = req.body.email;
+            var password = req.body.password;
 
-        bcrypt.genSalt(saltRounds, function(err, salt) {
-        bcrypt.hash(password, salt, function(err, hashedPassword) {
-            var query = `INSERT INTO users (name, username, email, password) VALUES ('${name}', '${username}', '${email}', '${hashedPassword}')`;
+            bcrypt.genSalt(saltRounds, function(err, salt) {
+                bcrypt.hash(password, salt, function(err, hashedPassword) {
+                    var query = `INSERT INTO users (name, username, email, password) VALUES ('${name}', '${username}', '${email}', '${hashedPassword}')`;
 
-            db.query(query);
-                res.json({
-                    'status': "Success",
-                    'name': req.body.name,
-                    'username': req.body.username
-                }); 
+                    db.query(query).then(() => {
+                        req.login(username, function() {
+                            res.json({
+                            'status': "Success",
+                            'name': req.body.name,
+                            'username': req.body.username
+                        });
+                        });
+                         
+                    });
+                    
+                });
             });
+        }
     });
-        
-        
-  });
 
-})
+});
+
+passport.serializeUser(function(username, done) {
+    done(null, username);
+});
+
+passport.deserializeUser(function(username, done) {
+    done(null, username);
+});
 
 router.post('/tasks', (req, res) => {
     var task = req.body.task;

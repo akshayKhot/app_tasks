@@ -3,7 +3,8 @@ var express             = require('express'),
     apiRouter           = require('./backend/router'),
     expressValidator    = require('express-validator'),
     cookieParser        = require('cookie-parser'),
-    session             = require('express-session');
+    session             = require('express-session'),
+    passport            = require('passport');
 
 var app = express();
 
@@ -21,6 +22,10 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.use(express.static('wwwroot'));
 app.use("/api", apiRouter);
 
