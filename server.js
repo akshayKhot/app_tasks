@@ -1,7 +1,9 @@
 var express             = require('express'),
     bp                  = require('body-parser'),
     apiRouter           = require('./backend/router'),
-    expressValidator    = require('express-validator');
+    expressValidator    = require('express-validator'),
+    cookieParser        = require('cookie-parser'),
+    session             = require('express-session');
 
 var app = express();
 
@@ -13,12 +15,14 @@ app.use(function(req, res, next) {
 })
 app.use(bp.json());
 app.use(expressValidator());
+app.use(cookieParser());
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(express.static('wwwroot'));
 app.use("/api", apiRouter);
-
-app.get("/", function(req, res) {
-    res.sendFile("index.html");
-})
 
 app.listen(3000, () => {
     console.log('Listening on port 3000')
