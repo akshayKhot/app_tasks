@@ -37,6 +37,8 @@ export class Signup {
             if(result.status == "Success") {
                 this.isSignUp = false;
                 this.errorsOnPage = false;
+                this.username = result.username;
+                console.log(this.username);
             } else if(result.status == "Error") {
                 this.errorsOnPage = true;
             }

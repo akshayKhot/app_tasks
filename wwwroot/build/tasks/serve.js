@@ -8,7 +8,7 @@ gulp.task('serve', ['build'], function(done) {
   browserSync({
     online: false,
     open: false,
-    port: 3000,
+    port: 9000,
     notify: false,
     server: {
       baseDir: ['.'],
@@ -27,7 +27,7 @@ gulp.task('serve-bundle', ['bundle'], function(done) {
   browserSync({
     online: false,
     open: false,
-    port: 3000,
+    port: 9000,
     notify: false,
     server: {
       baseDir: ['.'],
@@ -46,7 +46,7 @@ gulp.task('serve-export', ['export'], function(done) {
   browserSync({
     online: false,
     open: false,
-    port: 3000,
+    port: 9000,
     notify: false,
     server: {
       baseDir: ['./export'],

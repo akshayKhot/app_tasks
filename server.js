@@ -4,6 +4,8 @@ var express             = require('express'),
     expressValidator    = require('express-validator'),
     cookieParser        = require('cookie-parser'),
     session             = require('express-session'),
+    db                  = require('./backend/db').db, 
+    pgSession           = require('connect-pg-simple')(session),
     passport            = require('passport');
 
 var app = express();
@@ -17,11 +19,18 @@ app.use(function(req, res, next) {
 app.use(bp.json());
 app.use(expressValidator());
 app.use(cookieParser());
+
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
+  store: new pgSession({
+    pgPromise : db
+  }),
+  secret: 'keyboard cat',
+  resave: false,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days 
+  saveUninitialized: true
 }));
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 

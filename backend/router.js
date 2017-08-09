@@ -51,8 +51,8 @@ router.post("/user/new", function(req, res) {
                         req.login(username, function() {
                             res.json({
                             'status': "Success",
-                            'name': req.body.name,
-                            'username': req.body.username
+                            'username': req.user,
+                            'isAuthenticated': req.isAuthenticated()
                         });
                         });
                          
@@ -72,6 +72,15 @@ passport.serializeUser(function(username, done) {
 passport.deserializeUser(function(username, done) {
     done(null, username);
 });
+
+function authenticationMiddleware () {  
+	return (req, res, next) => {
+		console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
+
+	    if (req.isAuthenticated()) return next();
+	    res.redirect('/login')
+	}
+}
 
 router.post('/tasks', (req, res) => {
     var task = req.body.task;

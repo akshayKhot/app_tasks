@@ -55,6 +55,8 @@ System.register(["aurelia-fetch-client"], function (_export, _context) {
                         if (result.status == "Success") {
                             _this.isSignUp = false;
                             _this.errorsOnPage = false;
+                            _this.username = result.username;
+                            console.log(_this.username);
                         } else if (result.status == "Error") {
                             _this.errorsOnPage = true;
                         }
