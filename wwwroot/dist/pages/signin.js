@@ -1,7 +1,7 @@
-System.register([], function (_export, _context) {
+System.register(["aurelia-fetch-client"], function (_export, _context) {
     "use strict";
 
-    var Signin;
+    var HttpClient, json, client, Signin;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -10,11 +10,42 @@ System.register([], function (_export, _context) {
     }
 
     return {
-        setters: [],
+        setters: [function (_aureliaFetchClient) {
+            HttpClient = _aureliaFetchClient.HttpClient;
+            json = _aureliaFetchClient.json;
+        }],
         execute: function () {
-            _export("Signin", Signin = function Signin() {
-                _classCallCheck(this, Signin);
-            });
+            client = new HttpClient();
+
+            _export("Signin", Signin = function () {
+                function Signin() {
+                    _classCallCheck(this, Signin);
+
+                    this.userLoggedIn = false;
+                    this.username = "";
+                    this.password = "";
+                }
+
+                Signin.prototype.signin = function signin() {
+                    var _this = this;
+
+                    var credentials = {
+                        username: this.username,
+                        password: this.password
+                    };
+
+                    client.fetch("/login", {
+                        method: 'post',
+                        body: json(credentials)
+                    }).then(function (response) {
+                        return response.json();
+                    }).then(function (result) {
+                        if (result.message == "success") _this.userLoggedIn = true;
+                    });
+                };
+
+                return Signin;
+            }());
 
             _export("Signin", Signin);
         }

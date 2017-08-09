@@ -33,12 +33,10 @@ export class Signup {
             body: json(user)
         }).then(response => response.json())
         .then(result => {
-            console.log(result);
             if(result.status == "Success") {
                 this.isSignUp = false;
                 this.errorsOnPage = false;
                 this.username = result.username;
-                console.log(this.username);
             } else if(result.status == "Error") {
                 this.errorsOnPage = true;
             }

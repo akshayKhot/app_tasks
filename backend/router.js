@@ -3,8 +3,8 @@ var express           = require('express'),
     _                 = require('lodash'),
     util              = require('util'),
     bcrypt            = require('bcrypt'),
-    Strategy          = require('passport-local').Strategy,
-    passport          = require('passport');
+    passport          = require('passport'),
+    LocalStrategy     = require('passport-local').Strategy;
   
 const router  = express.Router();
 
@@ -18,25 +18,14 @@ router.get("/tasks", function(req, res) {
 
 router.post("/user/new", function(req, res) {
 
-    // validations!
-    req.checkBody('name', 'Name can not be empty').notEmpty();
-    req.checkBody('username', 'Username can not be empty').notEmpty();
-    req.checkBody('email', 'Email can not be empty').notEmpty();
-    req.checkBody('password', 'Password can not be empty').notEmpty();
-
-    req.checkBody('username', "Username must be 4-15 characters long").len(4, 15);
-    req.assert('email', 'valid email required').isEmail();
+    validateData(req);
     
     req.getValidationResult().then(function(result) {
         if (!result.isEmpty()) {
-            res.json({
-                'status': "Error"
-            });
+            res.json({ 'status': "Error" });
             return;
         } else {
             const saltRounds = 10;
-            const myPlaintextPassword = 's0/\/\P4$$w0rD';
-            const someOtherPlaintextPassword = 'not_bacon';
 
             var name = req.body.name;
             var username = req.body.username;
@@ -65,21 +54,26 @@ router.post("/user/new", function(req, res) {
 
 });
 
-passport.serializeUser(function(username, done) {
-    done(null, username);
+
+passport.serializeUser(function(user, done) {
+    done(null, user.username);
 });
 
 passport.deserializeUser(function(username, done) {
-    done(null, username);
+    db.one(`SELECT * FROM users WHERE username = '${username}'`)
+        .then(user => done(null, user));
 });
 
-function authenticationMiddleware () {  
-	return (req, res, next) => {
-		console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
+function validateData(req) {
+    // validations!
+    req.checkBody('name', 'Name can not be empty').notEmpty();
+    req.checkBody('username', 'Username can not be empty').notEmpty();
+    req.checkBody('email', 'Email can not be empty').notEmpty();
+    req.checkBody('password', 'Password can not be empty').notEmpty();
 
-	    if (req.isAuthenticated()) return next();
-	    res.redirect('/login')
-	}
+    req.checkBody('username', "Username must be 4-15 characters long").len(4, 15);
+    req.assert('email', 'valid email required').isEmail();
+    
 }
 
 router.post('/tasks', (req, res) => {
