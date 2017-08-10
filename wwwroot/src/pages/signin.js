@@ -21,8 +21,10 @@ export class Signin {
             body: json(credentials)
         }).then(response => response.json())
         .then(result => {
-            if(result.message == "success")
+            if(result.message == "success") {
+                this.loginError = false;
                 this.userLoggedIn = true;
+            }
             else if(result.message == "failed")
                 this.loginError = true;
         });

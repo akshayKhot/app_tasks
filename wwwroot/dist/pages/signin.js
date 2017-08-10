@@ -40,7 +40,10 @@ System.register(["aurelia-fetch-client"], function (_export, _context) {
                     }).then(function (response) {
                         return response.json();
                     }).then(function (result) {
-                        if (result.message == "success") _this.userLoggedIn = true;else if (result.message == "failed") _this.loginError = true;
+                        if (result.message == "success") {
+                            _this.loginError = false;
+                            _this.userLoggedIn = true;
+                        } else if (result.message == "failed") _this.loginError = true;
                     });
                 };
 

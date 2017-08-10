@@ -36,7 +36,7 @@ System.register(['lodash', 'jquery', 'moment', 'aurelia-fetch-client'], function
                     client.fetch('http://localhost:3000/api/tasks/').then(function (response) {
                         return response.json();
                     }).then(function (tasks) {
-                        _this.tasks = tasks;
+                        if (tasks.message == "failed") _this.loggedIn = false;else _this.tasks = tasks;
                     });
                 };
 

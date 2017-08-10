@@ -4,11 +4,13 @@ var express             = require('express'),
     expressValidator    = require('express-validator'),
     cookieParser        = require('cookie-parser'),
     session             = require('express-session'),
-    db                  = require('./backend/db').db, 
+    db                  = require('./backend/db'),
+    bcrypt              = require('bcrypt'),
     pgSession           = require('connect-pg-simple')(session),
     passport            = require('passport'),
     LocalStrategy       = require('passport-local').Strategy,
-    bcrypt              = require('bcrypt');
+    bcrypt              = require('bcrypt')
+    util                = require('./backend/util');
 
 var app = express();
 
@@ -43,10 +45,14 @@ passport.use(new LocalStrategy(function(username, password, done) {
             if(!user) {
                 return done(null, false, { message: 'Incorrect username' });
             } 
-            if(password !== user.password) {
-                return done(null, false, { message: 'Incorrect password' })
-            }
-            return done(null, user);
+
+            bcrypt.compare(password, user.password, function(err, res) {
+                if(res)
+                    return done(null, user);
+                else
+                    return done(null, false, { message: 'Incorrect password' })
+            });
+            
         })
         .catch(err => console.log(err));
 }));
@@ -56,7 +62,9 @@ app.use(express.static('wwwroot'));
 app.use("/api", apiRouter);
 
 
-app.post('/login', authenticate());
+app.post('/login', util.authenticate(), function(req, res) {
+    return res.json({ message: 'success' });
+});
 
 app.get('/logout', function(req, res) {
     req.logout();
@@ -68,27 +76,4 @@ app.listen(3000, () => {
 });
 
 
-// functions
-
-function authenticate() {
-    return (req, res, next) => {
-        
-        passport.authenticate('local', function(err, user, info) {
-            if (err) return next(err);
-            if (!user) {
-                return res.status(403).json({
-                    message: "failed"
-                });
-            }
-
-            // Manually establish the session...
-            req.login(user, function(err) {
-                if (err) return next(err);
-                return res.json({
-                    message: 'success',
-                });
-            });
-        })(req, res, next);
-  }
-}
 

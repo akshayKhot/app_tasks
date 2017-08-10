@@ -1,5 +1,5 @@
 <template>
-    <table class='table'>
+    <table class='table' if.bind='loggedIn'>
             <thead>
                 <tr>
                 <th>Task</th>
@@ -14,5 +14,8 @@
                 <td>${task.completed}</td>
                 </tr>
             </tbody>
-        </table>
+    </table>
+        <div class="container">
+            <h2>You are not authenticated. Please log in ot view your tasks.</h2>
+        </div>
 </template>

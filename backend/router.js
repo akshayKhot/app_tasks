@@ -1,15 +1,16 @@
 var express           = require('express'),
-    db                = require('./db').db,
+    db                = require('./db'),
     _                 = require('lodash'),
     util              = require('util'),
     bcrypt            = require('bcrypt'),
     passport          = require('passport'),
-    LocalStrategy     = require('passport-local').Strategy;
+    LocalStrategy     = require('passport-local').Strategy
+    util              = require('./util');
   
 const router  = express.Router();
 
 
-router.get("/tasks", function(req, res) {
+router.get("/tasks", util.authenticate(), function(req, res) {
     db.query("select * from tasks")
         .then(db_tasks => {
             res.json(db_tasks);
