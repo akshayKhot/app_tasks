@@ -23,6 +23,8 @@ export class Signin {
         .then(result => {
             if(result.message == "success")
                 this.userLoggedIn = true;
+            else if(result.message == "failed")
+                this.loginError = true;
         });
     }
 }

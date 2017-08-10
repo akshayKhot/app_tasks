@@ -77,7 +77,7 @@ function authenticate() {
             if (err) return next(err);
             if (!user) {
                 return res.status(403).json({
-                    message: "no user found"
+                    message: "failed"
                 });
             }
 

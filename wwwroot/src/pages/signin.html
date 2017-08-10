@@ -33,4 +33,9 @@
     <div class="container" if.bind="userLoggedIn">
         <h1>Logged In Successfully!</h1>
     </div>
+    <div class="container" if.bind="loginError">
+        <h3>
+            Login Failed, try again!
+        </h3>
+    </div>
 </template>
