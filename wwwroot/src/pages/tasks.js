@@ -14,12 +14,7 @@ export class Tasks {
     activate() {
         client.fetch(`http://localhost:3000/api/tasks/`)
         .then(response => response.json())
-        .then(tasks => {
-            if(tasks.message == "failed")
-                this.loggedIn = false;
-            else 
-                this.tasks = tasks;
-        });
+        .then(tasks => this.tasks = tasks);   
     }
 
 }
