@@ -10,6 +10,4 @@ export class App {
       { route: 'addTask',          name: 'addtask',    moduleId: 'pages/addTask', nav: true, title: 'Add' }
     ]);
   }
-
-  
 }
