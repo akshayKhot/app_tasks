@@ -3,14 +3,13 @@ var express           = require('express'),
     _                 = require('lodash'),
     util              = require('util'),
     bcrypt            = require('bcrypt'),
-    passport          = require('passport'),
-    LocalStrategy     = require('passport-local').Strategy
     util              = require('./util');
   
 const router  = express.Router();
 
 
-router.get("/tasks", util.authenticate(), function(req, res) {
+router.get("/tasks", function(req, res) {
+    console.log(req.isAuthenticated());
     db.query("select * from tasks")
         .then(db_tasks => {
             res.json(db_tasks);
@@ -38,31 +37,17 @@ router.post("/user/new", function(req, res) {
                     var query = `INSERT INTO users (name, username, email, password) VALUES ('${name}', '${username}', '${email}', '${hashedPassword}')`;
 
                     db.query(query).then(() => {
-                        req.login(username, function() {
-                            res.json({
+                        res.json({
                             'status': "Success",
                             'username': req.user,
                             'isAuthenticated': req.isAuthenticated()
-                        });
-                        });
-                         
+                        }); 
                     });
-                    
                 });
             });
         }
     });
 
-});
-
-
-passport.serializeUser(function(user, done) {
-    done(null, user.username);
-});
-
-passport.deserializeUser(function(username, done) {
-    db.one(`SELECT * FROM users WHERE username = '${username}'`)
-        .then(user => done(null, user));
 });
 
 function validateData(req) {

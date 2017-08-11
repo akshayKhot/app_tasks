@@ -31,13 +31,22 @@ app.use(session({
   }),
   secret: 'keyboard cat',
   resave: false,
-  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days 
-  saveUninitialized: true
+  cookie: { secure: false },
+  saveUninitialized: false
 }));
 
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+    done(null, user.username);
+});
+
+passport.deserializeUser(function(username, done) {
+    db.one(`SELECT * FROM users WHERE username = '${username}'`)
+        .then(user => done(null, user));
+});
 
 passport.use(new LocalStrategy(function(username, password, done) {
     db.one(`SELECT * FROM users WHERE username = '${username}'`)
@@ -61,12 +70,11 @@ passport.use(new LocalStrategy(function(username, password, done) {
 app.use(express.static('wwwroot'));
 app.use("/api", apiRouter);
 
-
 app.post('/login', util.authenticate(), function(req, res) {
     return res.json({ message: 'success' });
 });
 
-app.get('/logout', function(req, res) {
+app.get('/signout', function(req, res) {
     req.logout();
     res.json({"message": "logged out successfully"});
 });
@@ -74,6 +82,5 @@ app.get('/logout', function(req, res) {
 app.listen(3000, () => {
     console.log('Listening on port 3000')
 });
-
 
 
