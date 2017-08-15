@@ -1,10 +1,11 @@
-var pgp = require('pg-promise')();
+var pgp = require('pg-promise')(),
+    env = require('dotenv').config();
 
 // Database Connection
 var cn = {
-    host: 'localhost',
-    port: 5432,
-    database: 'postgres'
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME
 }
 var db = pgp(cn);
 

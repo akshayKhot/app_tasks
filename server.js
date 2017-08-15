@@ -4,6 +4,11 @@ var express             = require('express'),
     db                  = require('./backend/db'),
     util                = require('./backend/util');
 
+////// User Authentication
+var passport = require('passport'),
+    session  = require('express-session');
+////////////
+
 var app = express();
 
 app.set("views", "./views");
@@ -16,8 +21,20 @@ app.use(function(req, res, next) {
     next();
 })
 app.use(bp.json());
-app.use(bp.urlencoded({ extended: false })) 
+app.use(bp.urlencoded({ extended: false }));
+
+app.use(session({ 
+    secret: 'keyboard cat',
+    resave: false, 
+    saveUninitialized: false
+})); // session secret
+ 
+app.use(passport.initialize());
+ 
+app.use(passport.session());
+
 app.use(express.static('wwwroot'));
+app.use(express.static('js'));
 app.use("/api", apiRouter);
 
 app.get("/register", function(req, res) {
