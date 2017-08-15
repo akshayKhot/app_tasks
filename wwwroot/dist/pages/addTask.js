@@ -34,6 +34,8 @@ System.register(["aurelia-fetch-client"], function (_export, _context) {
                         method: 'post',
                         body: json(task)
                     });
+                    this.taskName = "";
+                    this.deadline = "";
                 };
 
                 return AddTask;

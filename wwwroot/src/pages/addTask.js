@@ -19,5 +19,7 @@ export class AddTask {
                 method: 'post',
                 body: json(task)
             });
+        this.taskName = "";
+        this.deadline = "";
     }
 }
